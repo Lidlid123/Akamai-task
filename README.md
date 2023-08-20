@@ -22,3 +22,9 @@ for the disk space scenerio:
 
 fallocate -l 1G /tmp/large_file
 
+
+for the memory scenerio : 
+
+stress --vm-bytes $(awk '/MemAvailable/{printf "%d\n", $2 * 0.99;}' < /proc/meminfo)k --vm-keep -m 1
+
+
