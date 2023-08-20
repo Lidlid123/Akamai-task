@@ -7,7 +7,7 @@
         state: touch
 
     - name: Check disk usage
-      shell: df / | awk 'NR==2 {print $5}'
+      shell: df / | awk 'NR==2 {gsub(/%/,""); print $5}'
       register: disk_usage
 
     - name: Write log if disk usage is above 90%
