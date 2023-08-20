@@ -13,7 +13,8 @@
     - name: Write log if disk usage is above 90%
       lineinfile:
         path: /var/log/monitor_resources
-        line: "Disk usage is above 90%"
+        line: "{{ lookup('pipe', 'date \"+%Y-%m-%d %H:%M:%S\"') }} Disk usage is above 90%"
+        insertafter: EOF
       when: disk_usage.stdout | int > 90
 
     - name: Check memory usage
@@ -23,7 +24,8 @@
     - name: Write log if memory usage is above 90%
       lineinfile:
         path: /var/log/monitor_resources
-        line: "Memory usage is above 90%"
+        line: "{{ lookup('pipe', 'date \"+%Y-%m-%d %H:%M:%S\"') }} Memory usage is above 90%"
+        insertafter: EOF
       when: memory_usage.stdout | int > 90
 
     - name: Check webpage accessibility
@@ -36,5 +38,6 @@
     - name: Write log if webpage is not accessible
       lineinfile:
         path: /var/log/monitor_resources
-        line: "Webpage is not accessible"
+        line: "{{ lookup('pipe', 'date \"+%Y-%m-%d %H:%M:%S\"') }} Webpage is not accessible"
+        insertafter: EOF
       when: webpage.failed
