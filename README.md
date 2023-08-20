@@ -14,3 +14,11 @@ every 1 minute :
 
 
 
+
+for testing if the logs file is populated i created a scenerio in which the webpage is not reachable : 
+systemctl stop nginx
+
+for the disk space scenerio:
+
+fallocate -l 1G /tmp/large_file
+
