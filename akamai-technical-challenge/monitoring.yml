@@ -1,0 +1,35 @@
+- hosts: nginx
+  become: yes
+  tasks:
+    - name: Check disk usage
+      shell: df / | awk 'NR==2 {print $5}'
+      register: disk_usage
+
+    - name: Write log if disk usage is above 90%
+      lineinfile:
+        path: /var/log/monitor_resources
+        line: "Disk usage is above 90%"
+      when: disk_usage.stdout | int > 90
+
+    - name: Check memory usage
+      shell: free | awk 'NR==2 {print $3/$2*100}'
+      register: memory_usage
+
+    - name: Write log if memory usage is above 90%
+      lineinfile:
+        path: /var/log/monitor_resources
+        line: "Memory usage is above 90%"
+      when: memory_usage.stdout | int > 90
+
+    - name: Check webpage accessibility
+      uri:
+        url: http://3.216.72.120/
+        status_code: 200
+      register: webpage
+      ignore_errors: yes
+
+    - name: Write log if webpage is not accessible
+      lineinfile:
+        path: /var/log/monitor_resources
+        line: "Webpage is not accessible"
+      when: webpage.failed

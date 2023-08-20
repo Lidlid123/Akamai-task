@@ -1,0 +1,12 @@
+- hosts: nginx
+  become: yes
+  tasks:
+    - name: Update and upgrade system packages
+      apt:
+        update_cache: yes
+        upgrade: yes
+
+    - name: Install Nginx
+      apt:
+        name: nginx
+        state: present
