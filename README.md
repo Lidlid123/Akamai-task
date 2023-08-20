@@ -11,18 +11,23 @@ Good day! 😊
 
 
 
-
+1)
 First step:
 
 ansible-playbook -i inventory nginx.yml
 
-
+2)
 Then:
 ansible-playbook -i inventory monitoring.yml
 
+3)
 Next, in order to automate the monitoring via Ansible playbooks, I’m creating a cron job that will sample the server (nginx) every 1 minute:
 
 * * * * * ansible-playbook -i /home/ubuntu/akamai-task/Akamai-task/akamai-technical-challenge/inventory /home/ubuntu/akamai-task/Akamai-task/akamai-technical-challenge/monitoring.yml
+
+
+
+
 
 
 For testing if the logs file is populated, I created a scenario in which the webpage is not reachable:
