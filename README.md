@@ -1,9 +1,9 @@
 # Akamai-task
 
 first step :
-ansible-playbook -i inverntory nginx.yml
+ansible-playbook -i inventory nginx.yml
 
 then:
-ansible-playbook -i inverntory monitoring.yml
+ansible-playbook -i inventory monitoring.yml
 
 
