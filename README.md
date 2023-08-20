@@ -1,5 +1,17 @@
 # Akamai-task
 
+
+For this task, I deployed 2 EC2 instances. One will act as the Ansible controller (ansible-control-node - 54.156.105.197) and the second will be the web server (webserver-Akamai - 3.216.72.120 / 172.31.15.146 (nginx server)).
+
+I installed Ansible on the controller, then deployed nginx via the nginx.yml playbook and the monitoring script via the monitoring.yml playbook.
+
+The steps summary is down below.
+
+Good day! 😊
+
+
+
+
 First step:
 
 ansible-playbook -i inventory nginx.yml
