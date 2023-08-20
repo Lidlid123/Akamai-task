@@ -1,0 +1,47 @@
+- hosts: nginx
+  become: yes
+  tasks:
+    - name: Create log file if it doesn't exist
+      local_action:
+        module: file
+        path: /var/log/monitor_resources
+        state: touch
+
+    - name: Check disk usage
+      shell: df / | awk 'NR==2 {gsub(/%/,""); print $5}'
+      register: disk_usage
+
+    - name: Write log if disk usage is above 90%
+      local_action:
+        module: lineinfile
+        path: /var/log/monitor_resources
+        line: "{{ lookup('pipe', 'date \"+%Y-%m-%d %H:%M:%S\"') }} {{ inventory_hostname }} Disk usage is above 90%"
+        insertafter: EOF
+      when: disk_usage.stdout | int > 90
+
+    - name: Check memory usage
+      shell: free | awk 'NR==2 {print $3/$2*100}'
+      register: memory_usage
+
+    - name: Write log if memory usage is above 90%
+      local_action:
+        module: lineinfile
+        path: /var/log/monitor_resources
+        line: "{{ lookup('pipe', 'date \"+%Y-%m-%d %H:<EUGPSCoordinates>:%S\"') }} {{ inventory_hostname }} Memory usage is above 90%"
+        insertafter: EOF
+      when: memory_usage.stdout | int > 90
+
+    - name: Check webpage accessibility
+      uri:
+        url: http://3.216.72.120/
+        status_code: 200
+      register: webpage
+      ignore_errors: yes
+
+    - name: Write log if webpage is not accessible
+      local_action:
+        module: lineinfile
+        path: /var/log/monitor_resources
+        line: "{{ lookup('pipe', 'date \"+%Y-%m-%d %H:%M:%S\"') }} {{ inventory_hostname }} Webpage is not accessible"
+        insertafter: EOF
+      when: webpage.failed
