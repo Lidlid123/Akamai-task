@@ -1,4 +1,4 @@
-# Akamai-task
+# ansible-monitoring
 
 
 For this task, I deployed 2 EC2 instances. One will act as the Ansible controller (ansible-control-node - 54.156.105.197) and the second will be the web server (webserver-Akamai - 3.216.72.120 / 172.31.15.146 (nginx server)).
